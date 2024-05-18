@@ -22,7 +22,8 @@ export const createEvent = async (req,res)=>{
         }
         const database = client.db("esports");
         const collection = database.collection("events");
-        const result = await collection.insertOne(obj)
+        const result = await collection.find().toArray()
+        console.log(result);
 
         res.send("new event created");
 
@@ -31,3 +32,4 @@ export const createEvent = async (req,res)=>{
         
     }
 }
+

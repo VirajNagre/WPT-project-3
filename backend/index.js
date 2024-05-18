@@ -1,9 +1,13 @@
 import express from 'express';
 import { client } from './utility/dbUtils.js';
 import eventRouter from './routers/eventRouter.js';
+import userRouter from './routers/userRouter.js';
 // let conn;
 
+
 const app = express();
+app.use(express.json());
+app.use("/user",userRouter)
 
 
 
