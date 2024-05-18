@@ -1,9 +1,9 @@
 import express from 'express';
-import { getAllEvents } from '../controllers/EventController.js';
+import { getAllEvents,createEvent } from '../controllers/EventController.js';
 
 const eventRouter  = express.Router();
 
 eventRouter.get("/",getAllEvents)
-
+eventRouter.post("/",createEvent)
 
 export default eventRouter;
