@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
-import client from "../../utility/dbUtils.js"
-import { DB_NAME } from "../../constants/dbConstants.js";
-import { USERS_COLL } from "../../constants/dbConstants.js";
+import client from "../utility/dbUtils.js"
+import { DB_NAME } from "../constants/dbConstants.js";
+import { USERS_COLL } from "../constants/dbConstants.js";
 
 export const adminAuth = async (req,res,next) =>{
     const user = req.user

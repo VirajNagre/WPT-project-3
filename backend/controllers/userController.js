@@ -3,77 +3,104 @@ import { client } from '../utility/dbUtils.js';
 import {compareSync, hashSync} from "bcrypt";
 import jwt from 'jsonwebtoken';
 
-export const registerUser=async(req,resp)=>{
+// import bcrypt from 'bcryptjs';
+// import { DB_NAME, USERS_COLL } from "../constants/dbConstants.js";
+// import client from "../utility/dbUtils.js";
+
+export const registerUser = async (req, resp) => {
+    console.log("registerUser");
     const database = client.db(DB_NAME);
     const collection = database.collection(USERS_COLL);
 
-    const {FirstName,LastName,DateOfBirth,InGameName,Country,State,City,MobileNumber,Username,Password,ConfirmPassword}=req.body;
-    var encryptedPassword="";
-    try{
-    const userExist=await collection.findOne({Username:Username});
-    console.log(userExist);
-    if(userExist){
-        // console.log("User already ")
-        return resp.status(409).send({message:"user already exists"});
-    }
-    }catch(error){
-        console.log(error);
-        return resp.status(500).send({ message: "Error checking user existence" });
-    }
+    const {
+        FirstName,
+        LastName,
+        DateOfBirth,
+        InGameName,
+        Country,
+        State,
+        City,
+        MobileNumber,
+        Username,
+        Password,
+        ConfirmPassword
+    } = req.body;
 
-    if(Password != ConfirmPassword){
-       resp.status(400).send({message:"Please enter matching password"});
+    try {
+        // Check if the user already exists
+        const existingUser = await collection.findOne({ Username });
+        if (existingUser) {
+            return resp.status(400).send({ message: "Username already exists" });
+        }
+
+        // Validate passwords
+        if (Password !== ConfirmPassword) {
+            return resp.status(400).send({ message: "Passwords do not match" });
+        }
+
+        // Hash the password
+        const hashedPassword = hashSync(Password, 10);
+
+        // Create the user object
+        const userObj = {
+            FirstName,
+            LastName,
+            DateOfBirth,
+            InGameName,
+            Country,
+            State,
+            City,
+            MobileNumber,
+            Username,
+            Password: hashedPassword,
+            registeredEvents: [] // Initialize with an empty array
+        };
+
+        // Insert the user into the database
+        await collection.insertOne(userObj);
+
+        // Respond to the client
+        resp.status(201).send({ message: "User registered successfully" });
+    } catch (error) {
+        console.error("Error registering user:", error);
+        resp.status(500).send({ message: "Internal server error" });
     }
-    else{
-         encryptedPassword=hashSync(Password,10);
-    }
-    try{
-        await collection.insertOne({FirstName,LastName,DateOfBirth,InGameName,Country,State,City,MobileNumber,Username,encryptedPassword});
-        // console.log({FirstName,LastName,DateOfBirth,InGameName,Country,State,City,MobileNumber});
-        resp.send("Data received");
-    }catch(error){
-        console.log(error);
-    }
-} 
+};
+
+
 
 export const loginUser= async (req,resp)=>{
     const database = client.db(DB_NAME);
     const collection = database.collection(USERS_COLL);
-
     const {Username,Password}=req.body;
-    
+    console.log(Username,Password)
     if(!Username || !Password ){
         resp.status(400).send({message:"Invalid credentidals"});
     }
-
     try {
         const userExists = await collection.findOne({Username:Username})
+        console.log("userExists-----------------",userExists)
         if(!userExists){
             resp.status(400).send({message:"User not found"})
         }
-        const userPassword = userExists.encryptedPassword;
+        const savedPassword = userExists.Password;
+        console.log("userPassword",savedPassword)
   //      console.log(compareSync(Password,userPassword))
-        console.log("Password,userPassword", Password,userPassword);
-       console.log(userExists, userPassword)
-        if(compareSync(Password,userPassword))
+        // console.log("Password,userPassword", Password,userPassword);
+        console.log(userExists, savedPassword)
+        if(compareSync(Password,savedPassword))
             {
             const token = jwt.sign({id:userExists._id},"cdac");
             resp.status(200).send({message:"Login Successful",token:token})
-            
         }else{
             resp.status(400).send({message:"Invalid credentials"})
-
         }
-        
-        
+                
     } catch (error) {
         console.log(error);
         resp.status(400).send({message:"Something went wrong"})
     }
 }
 
-const resgiterForEvent = async (req,res) =>{
-     
-}
 
 
