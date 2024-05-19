@@ -40,6 +40,11 @@ app.use('/event',eventRouter);
 app.listen(5000,async()=>{
         // run().catch(console.dir);
         // conn.
-        console.log("server running")
+        try{
+            client.connect();
+            console.log("server running")
+        }catch(e){
+            console.log(e);
+        }
     }
 );
