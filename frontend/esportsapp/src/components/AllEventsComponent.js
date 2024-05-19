@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
-import { BASE_URL,EVENT_ENDPOINT } from '../constants/constants.js';
+import { BASE_URL,EVENT_ENDPOINT } from "../Constants/constants.js";
 import {useState,useEffect} from 'react';
 import EventCard from './EventCard.js'
 
