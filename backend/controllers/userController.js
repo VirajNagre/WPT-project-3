@@ -73,21 +73,23 @@ export const loginUser= async (req,resp)=>{
     const database = client.db(DB_NAME);
     const collection = database.collection(USERS_COLL);
     const {Username,Password}=req.body;
-    console.log(Username,Password)
-    if(!Username || !Password ){
-        resp.status(400).send({message:"Invalid credentidals"});
+    const inpUname = Username;
+    console.log(req.body)
+    console.log(inpUname,Password)
+    if(!inpUname || !Password ){
+        return resp.status(400).send({message:"Invalid credentidals"});
     }
     try {
-        const userExists = await collection.findOne({Username:Username})
+        const userExists = await collection.findOne({Username:inpUname})
         console.log("userExists-----------------",userExists)
         if(!userExists){
-            resp.status(400).send({message:"User not found"})
+            return resp.status(400).send({message:"User not found"})
         }
         const savedPassword = userExists.Password;
-        console.log("userPassword",savedPassword)
+        // console.log("userPassword",savedPassword)
   //      console.log(compareSync(Password,userPassword))
         // console.log("Password,userPassword", Password,userPassword);
-        console.log(userExists, savedPassword)
+        // console.log(userExists, savedPassword)
         if(compareSync(Password,savedPassword))
             {
             const token = jwt.sign({id:userExists._id},"cdac");
