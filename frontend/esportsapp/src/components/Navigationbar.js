@@ -1,9 +1,23 @@
-import React from "react";
-import {Link} from 'react-router-dom';
+import React, { useContext } from "react";
+import {Link, useNavigate} from 'react-router-dom';
 import { Nav, Navbar, NavItem,NavDropdown, Container} from 'react-bootstrap';
-
+import { getToken,removeToken } from "../Services/userServices";
+import { AuthContext } from '../components/ContextAPI/authContext.js';
 
 const Navigationbar = () => {
+    const { isAuthenticated, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const logoutHandler = (e) =>{
+        e.preventDefault();
+        removeToken();
+        logout();
+        navigate('/');  
+    }
+
+
+    
+
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" >
             <Container>
@@ -23,8 +37,14 @@ const Navigationbar = () => {
                     </NavDropdown> */}
                 </Nav>
                 <Nav>
-                    <Nav.Link as={Link} to="/login">Login</Nav.Link>
-                    <Nav.Link as={Link} to="/signup">Signup</Nav.Link>
+                    {isAuthenticated ?
+                    <Nav.Link as={Link} to="/home" onClick={logoutHandler}>Logout</Nav.Link>
+                    :
+                        <>
+                        <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                        <Nav.Link as={Link} to="/signup">Signup</Nav.Link>
+                        </>
+                    }
                 </Nav>
             </Navbar.Collapse>
                     </Container>

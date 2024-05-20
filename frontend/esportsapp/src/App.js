@@ -6,11 +6,14 @@ import Signup from "./components/Signup";
 import Home from "./components/Home";
 import About from "./components/About";
 import EventInfo from './components/EventInfo.js'
+import { AuthProvider } from './components/ContextAPI/authContext.js';
 
 import { Container } from "react-bootstrap";
 function App() {
   return (
     <>
+        <AuthProvider>
+
       <Router>
         <Navigationbar />
         <Routes>
@@ -23,6 +26,7 @@ function App() {
           <Route path="*" element={<Home />} />
         </Routes>
       </Router>
+        </AuthProvider>
     </>
   );
 }

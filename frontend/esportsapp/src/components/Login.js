@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import {Button, Container, Form, Row} from "react-bootstrap";
-import { BASE_URL, USER_ENDPOINT } from '../Constants/constants';
+import { BASE_URL, USER_ENDPOINT } from '../constants/Constants';
+import { USER_TOKEN_STORAGE_KEY } from '../constants/authConstants';
 import axios from "axios";
+import {useNavigate} from 'react-router-dom';
+import { AuthContext } from './ContextAPI/authContext';
 
 export const Login = () => {
     const [userData,setUserData]=useState({Username:"",Password:""})
-    
+    const { login } = useContext(AuthContext);
+    const navigate = useNavigate();
+
     const handleFieldChange=(eventObj)=> {
         eventObj.preventDefault();
         setUserData({...userData,[eventObj.target.name]:eventObj.target.value});
@@ -13,9 +18,16 @@ export const Login = () => {
 
     const handleSubmit=async(eventObj)=>{
         eventObj.preventDefault();
-        // console.log(userData);
-        const response=await axios.post(`${BASE_URL}/${USER_ENDPOINT}/login`)
+        console.log(userData);
+        
+        const response=await axios.post(`${BASE_URL}/${USER_ENDPOINT}/login`,userData)
         console.log(response);
+        if (response.status === 200) {
+            // storeToken(response.data.token);
+            localStorage.setItem(USER_TOKEN_STORAGE_KEY,response.data.token);
+            login();
+            navigate("/home");
+        }
     }
     return (
         <Container >

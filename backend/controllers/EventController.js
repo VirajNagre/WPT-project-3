@@ -98,7 +98,7 @@ export const createEvent = async (req,res)=>{
 
     try {
         console.log(req.user);
-        const {
+        let {
             eventName,
             gameName,
             location,
@@ -106,6 +106,8 @@ export const createEvent = async (req,res)=>{
             dateOfEvent,
             timeOfEvent,} 
         = req.body
+
+        numberOfSeats = parseInt(numberOfSeats);
 
         const eventObj = {
             eventName,
@@ -115,7 +117,7 @@ export const createEvent = async (req,res)=>{
             dateOfEvent,
             timeOfEvent,
             eventHost:req.user,
-            participants:[new ObjectId(eventHost.id)],
+            participants:[new ObjectId(req.user.id)],
         };
         console.log(eventObj);
         const database = client.db("esports");
@@ -190,12 +192,16 @@ export const eventRegistration = async(req,res)=>{
         const eventColl = database.collection(EVENT_COLL);
         const {eventId} = req.body;
         const user = req.user;
-        console.log(user.id )
+        let abc = await eventColl.findOne({_id:new ObjectId(eventId)})
+        console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh" , abc.numberOfSeats);
         const eventUpdate = await eventColl.updateOne(
             {_id:new ObjectId(eventId)},
-            {$addToSet:{participants:new ObjectId(user.id)}}
+            {
+                $addToSet:{participants:new ObjectId(user.id)},
+                $inc: { numberOfSeats: -1 } 
+            }
         )
-
+        
         console.log("oasbdiausudb",await userColl.findOne({_id:new ObjectId(user.id)}));
         const userUpdate = await userColl.updateOne(
             {_id:new ObjectId(user.id)},

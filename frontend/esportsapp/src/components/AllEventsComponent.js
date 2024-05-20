@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { BASE_URL,EVENT_ENDPOINT } from "../constants/Constants.js";
 import axios from 'axios';
-<<<<<<< HEAD
-import { BASE_URL, EVENT_ENDPOINT } from '../constants/constants.js';
 import EventCard from './EventCard.js';
 import { Container, Row, Col } from 'react-bootstrap';
-=======
-import { BASE_URL,EVENT_ENDPOINT } from "../Constants/constants.js";
-import {useState,useEffect} from 'react';
-import EventCard from './EventCard.js'
->>>>>>> 8fc5c1a706c81b2a58c3169b192149c15e6d4b75
 
 function AllEventsComponent() {
   const [allEvents, setAllEvents] = useState([]);
