@@ -9,6 +9,8 @@ import EventInfo from './components/EventInfo.js'
 import { AuthProvider } from './components/ContextAPI/authContext.js';
 
 import { Container } from "react-bootstrap";
+import { MyProfile } from "./components/MyProfile.js";
+import { UpdateInfo } from "./components/UpdateInfo.js";
 function App() {
   return (
     <>
@@ -24,6 +26,9 @@ function App() {
           <Route path="/event/:id" element={<EventInfo />} />
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Home />} />
+          <Route path="/profile" element={<MyProfile/>} />
+          <Route path="/update" element={<UpdateInfo/>} />
+          <Route path="/about" element={<About/>} />
         </Routes>
       </Router>
         </AuthProvider>

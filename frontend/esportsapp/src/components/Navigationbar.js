@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import { Nav, Navbar, NavItem,NavDropdown, Container} from 'react-bootstrap';
 import { getToken,removeToken } from "../Services/userServices";
 import { AuthContext } from '../components/ContextAPI/authContext.js';
+import { MyProfile } from "./MyProfile.js";
 
 const Navigationbar = () => {
     const { isAuthenticated, logout } = useContext(AuthContext);
@@ -45,6 +46,9 @@ const Navigationbar = () => {
                         <Nav.Link as={Link} to="/signup">Signup</Nav.Link>
                         </>
                     }
+                </Nav>
+                <Nav>
+                <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
                     </Container>
