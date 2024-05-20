@@ -1,7 +1,7 @@
 import { Col, Container, Form, Row,Button } from 'react-bootstrap';
 import React, { useState } from 'react';
 import axios from "axios";
-import { BASE_URL,USER_ENDPOINT } from '../Constants/constants.js';
+import { BASE_URL,USER_ENDPOINT } from '../Constants/Constants.js';
 import { useNavigate } from 'react-router-dom';
 
 

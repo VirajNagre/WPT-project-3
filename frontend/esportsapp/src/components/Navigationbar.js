@@ -47,7 +47,8 @@ const Navigationbar = () => {
                     {isAuthenticated ?
                     <>
                     <Nav.Link as={Link} to="/home" onClick={logoutHandler}>Logout</Nav.Link>
-                    <Button onClick={createEvent} className="ml-4">Launch new </Button>
+                    <Button onClick={createEvent} className="ml-4">Create new Event </Button>
+                    <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                     </>
                     :
                         <>
@@ -55,9 +56,6 @@ const Navigationbar = () => {
                         <Nav.Link as={Link} to="/signup">Signup</Nav.Link>
                         </>
                     }
-                </Nav>
-                <Nav>
-                <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
                     </Container>
