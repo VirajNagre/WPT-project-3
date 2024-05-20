@@ -1,4 +1,4 @@
-import { USER_TOKEN_STORAGE_KEY } from "../constants/authConstants";
+import { USER_TOKEN_STORAGE_KEY } from "../Constants/authConstants.js";
 
 export function getToken(){
     return localStorage.getItem(USER_TOKEN_STORAGE_KEY);

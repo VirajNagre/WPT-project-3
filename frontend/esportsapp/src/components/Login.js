@@ -1,10 +1,10 @@
 import React, { useState,useContext } from 'react'
 import {Button, Container, Form, Row} from "react-bootstrap";
-import { BASE_URL, USER_ENDPOINT } from '../constants/Constants';
-import { USER_TOKEN_STORAGE_KEY } from '../constants/authConstants';
+import { BASE_URL, USER_ENDPOINT } from "../Constants/constants.js";
+import { USER_TOKEN_STORAGE_KEY } from "../Constants/authConstants.js";
 import axios from "axios";
 import {useNavigate} from 'react-router-dom';
-import { AuthContext } from './ContextAPI/authContext';
+import { AuthContext } from "./ContextAPI/authContext.js";
 
 export const Login = () => {
     const [userData,setUserData]=useState({Username:"",Password:""})

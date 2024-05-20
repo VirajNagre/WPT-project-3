@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BASE_URL,EVENT_ENDPOINT } from "../constants/Constants.js";
+import { BASE_URL,EVENT_ENDPOINT } from "../Constants/constants.js";
 import axios from 'axios';
 import EventCard from './EventCard.js';
 import { Container, Row, Col } from 'react-bootstrap';

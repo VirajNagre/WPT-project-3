@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import { Container } from 'react-bootstrap'
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { BASE_URL, EVENT_ENDPOINT } from '../constants/Constants.js';
+import { BASE_URL, EVENT_ENDPOINT } from '../Constants/constants.js';
 
 const EventInfo = () => {
     const [eventInfo, setEventInfo] = useState([]);

@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { BASE_URL, EVENT_ENDPOINT } from '../constants/Constants';
+import { BASE_URL, EVENT_ENDPOINT } from "../Constants/constants.js";
 import { getToken } from '../Services/userServices';
-import { AuthContext } from './ContextAPI/authContext';
+import { AuthContext } from './ContextAPI/authContext.js';
 
 
 const EventCard = ({ event }) => {
