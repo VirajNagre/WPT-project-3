@@ -98,7 +98,7 @@ export const loginUser= async (req,resp)=>{
                 
     } catch (error) {
         console.log(error);
-        resp.status(400).send({message:"Something went wrong"})
+        // resp.status(400).send({message:"Something went wrong"})
     }
 }
 
