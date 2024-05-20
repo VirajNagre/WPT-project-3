@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import {Link, useNavigate} from 'react-router-dom';
-import { Nav, Navbar, NavItem,NavDropdown, Container} from 'react-bootstrap';
-import { getToken,removeToken } from "../Services/userServices";
+import { Nav, Navbar, NavItem,NavDropdown, Container,Button } from 'react-bootstrap';
+import { getToken,removeToken, removeUserInfo } from "../Services/userServices";
 import { AuthContext } from '../components/ContextAPI/authContext.js';
 import { MyProfile } from "./MyProfile.js";
+
 
 const Navigationbar = () => {
     const { isAuthenticated, logout } = useContext(AuthContext);
@@ -12,8 +13,13 @@ const Navigationbar = () => {
     const logoutHandler = (e) =>{
         e.preventDefault();
         removeToken();
+        removeUserInfo();
         logout();
         navigate('/');  
+    }
+
+    const createEvent = () =>{
+        navigate('/event/create-new')
     }
 
 
@@ -39,7 +45,10 @@ const Navigationbar = () => {
                 </Nav>
                 <Nav>
                     {isAuthenticated ?
+                    <>
                     <Nav.Link as={Link} to="/home" onClick={logoutHandler}>Logout</Nav.Link>
+                    <Button onClick={createEvent} className="ml-4">Launch new </Button>
+                    </>
                     :
                         <>
                         <Nav.Link as={Link} to="/login">Login</Nav.Link>
