@@ -87,13 +87,15 @@ export const loginUser= async (req,resp)=>{
         }
         const savedPassword = userExists.Password;
         // console.log("userPassword",savedPassword)
-  //      console.log(compareSync(Password,userPassword))
+        //      console.log(compareSync(Password,userPassword))
         // console.log("Password,userPassword", Password,userPassword);
         // console.log(userExists, savedPassword)
         if(compareSync(Password,savedPassword))
             {
-            const token = jwt.sign({id:userExists._id},"cdac");
-            resp.status(200).send({message:"Login Successful",token:token})
+                const token = jwt.sign({id:userExists._id},"cdac");
+                delete userExists.Password;
+                // delete userExists.registeredEvents;
+                resp.status(200).send({message:"Login Successful",token:token,userInfo:userExists})
         }else{
             resp.status(400).send({message:"Invalid credentials"})
         }

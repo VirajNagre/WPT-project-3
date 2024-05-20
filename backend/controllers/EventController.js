@@ -10,7 +10,31 @@ export const getAllEvents = async (req, res) => {
         const eventsCollection = database.collection(EVENT_COLL);
         const usersCollection = database.collection(USERS_COLL); // Corrected collection name
 
-        const events = await eventsCollection.aggregate([
+        const events = await eventsCollection.find().toArray();
+        // console.log(events);
+        res.status(200).send(events);
+    } catch (error) {
+        res.status(500).send({ message: "Internal server error" });
+    }
+};
+
+
+
+
+export const getEventById= async (req,res)=>{
+    try {
+
+        console.log("getEventById function ");
+        // console.log(req.params.id);
+        const eventId = req.params.id;
+        const database = client.db(DB_NAME);
+        const eventsCollection = database.collection(EVENT_COLL);
+        const collection = database.collection(EVENT_COLL);        
+
+        const eventInfo = await eventsCollection.aggregate([
+            { 
+                $match: {_id:new ObjectId(eventId)} 
+            },
             {
                 $lookup: {
                     from: USERS_COLL, // Corrected collection name
@@ -56,24 +80,6 @@ export const getAllEvents = async (req, res) => {
                 }
             }
         ]).toArray();
-        console.log(events);
-        res.status(200).send(events);
-    } catch (error) {
-        res.status(500).send({ message: "Internal server error" });
-    }
-};
-
-
-
-
-export const getEventById= async (req,res)=>{
-    try {
-
-        console.log("getEventById function ");
-        // console.log(req.params.id);
-        const eventId = req.params.id;
-        const database = client.db(DB_NAME);
-        const collection = database.collection(EVENT_COLL);        
  
         console.log(eventId);
         if(!eventId){
@@ -81,7 +87,7 @@ export const getEventById= async (req,res)=>{
         }
 
         
-        const eventInfo = await collection.find({_id:new ObjectId(eventId)}).toArray();
+        // const eventInfo = await collection.find({_id:new ObjectId(eventId)}).toArray();
         console.log("eventInfo",eventInfo);
 
         res.status(200).send({eventInfo});
@@ -101,23 +107,44 @@ export const createEvent = async (req,res)=>{
         let {
             eventName,
             gameName,
+            description,
             location,
             numberOfSeats,
             dateOfEvent,
-            timeOfEvent,} 
+            endTime,
+            startTime,
+        } 
         = req.body
 
         numberOfSeats = parseInt(numberOfSeats);
+        
+        console.log("startTime,endTime",startTime,endTime);
+        
+        // date format conversion
+        let [day, month, year] = dateOfEvent.split('/')
+        console.log("day,month,year",day,month,year);
+        
+        let dateString = `${year}-${month}-${day}`
 
+        dateOfEvent = new Date(dateString)        
+        startTime = new Date(`${dateString}T${startTime}:00`);
+        endTime = new Date(`${dateString}T${endTime}:00`);
+
+        console.log(dateOfEvent)
         const eventObj = {
             eventName,
+            description,
             gameName,
             location,
             numberOfSeats,
             dateOfEvent,
-            timeOfEvent,
-            eventHost:req.user,
+            startTime,
+            endTime,
+            eventHost:new ObjectId(req.user.id),
             participants:[new ObjectId(req.user.id)],
+            isActive : true,
+            createdAt: new Date(),
+            updatedAt: new Date(),
         };
         console.log(eventObj);
         const database = client.db("esports");
@@ -194,6 +221,9 @@ export const eventRegistration = async(req,res)=>{
         const user = req.user;
         let abc = await eventColl.findOne({_id:new ObjectId(eventId)})
         console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh" , abc.numberOfSeats);
+        if(abc.numberOfSeats<1){
+            return res.status(500).send({message:"Slots full"});
+        }
         const eventUpdate = await eventColl.updateOne(
             {_id:new ObjectId(eventId)},
             {
