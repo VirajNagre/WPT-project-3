@@ -1,21 +1,42 @@
-import React from 'react'
-import { Card,Button } from 'react-bootstrap'
+import React from 'react';
+import { Card, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { BASE_URL, EVENT_ENDPOINT } from '../constants/constants';
 
-const EventCard = (props) => {
+const EventCard = ({ event }) => {
+    const navigate = useNavigate();
 
-  return (
-    <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src="holder.js/100px180" />
-      <Card.Body>
-        <Card.Title>{}</Card.Title>
+    const handleClick = (e)=>{
+        e.preventDefault();
+        // navigate(`/event/${event._id}`)
+        axios.post(`${BASE_URL}/${EVENT_ENDPOINT}/registerForEvent`,{
+            eventId:event._id,
+        }).then(response=>{
+            console.log(response)
+        }).catch(err=>{
+            console.log(err);
+        })
+        // alert()
+    }
+
+    return(
+  <Card className="h-100">
+    <Card.Body className="d-flex flex-column">
+      <div>
+        <Card.Title>{event.eventName}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">{event.gameName}</Card.Subtitle>
         <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
-      </Card.Body>
-    </Card>
-  )
-}
+          <p>Location: <strong>{event.location}</strong><br />
+          Date: <strong>{event.dateOfEvent}</strong><br />
+          Time:<strong>{event.timeOfEvent}</strong><br />
+          Seats Available:<strong> {event.numberOfSeats} </strong><br /></p> 
 
-export default EventCard
+        </Card.Text>
+      </div>
+      <Button variant="primary" className="mt-auto" onClick={handleClick}>Register Now</Button>
+    </Card.Body>
+  </Card>)
+};
+
+export default EventCard;

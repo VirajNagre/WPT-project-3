@@ -1,52 +1,38 @@
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BASE_URL,EVENT_ENDPOINT } from '../constants/constants.js';
-import {useState,useEffect} from 'react';
-import EventCard from './EventCard.js'
+import { BASE_URL, EVENT_ENDPOINT } from '../constants/constants.js';
+import EventCard from './EventCard.js';
+import { Container, Row, Col } from 'react-bootstrap';
 
 function AllEventsComponent() {
+  const [allEvents, setAllEvents] = useState([]);
 
-    const [allEvents, setAllEvents]=useState([])
-    // let allEvents = [];
-    useEffect(()=>{
-        axios.get(`${BASE_URL}/${EVENT_ENDPOINT}/`, {
-          })
-          .then(function (response) {
-            setAllEvents(response.data);
-            // allEvents = response;
-            console.log(allEvents);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-    },[])
+  useEffect(() => {
+    axios.get(`${BASE_URL}/${EVENT_ENDPOINT}/`)
+      .then(response => {
+        setAllEvents(response.data);
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
 
-    const fruits = ["Apple", "Mango", "Banana", "GFG"];
+  
   return (
-    <>
-      {
-        allEvents.length > 0 ? (
-          allEvents.map((event, index) => (
-            <EventCard props= {{event,index}} className ="d-flex"/>
+    <Container>
+      <Row>
+        {allEvents.length > 0 ? (
+          allEvents.map(event => (
+            <Col key={event._id} xs={12} sm={6} md={4} lg={3}>
+              <EventCard event={event} />
+            </Col>
           ))
         ) : (
           <p>No events available</p>
-        )
-      }
-
-    {
-        /*  This maps each array item to a div adds
-        the style declared above and return it */
-        fruits.map((fruit) => (
-            <div key={fruit}>
-                {fruit}
-            </div>
-        ))
-    }
-    
-
-    </>
+        )}
+      </Row>
+    </Container>
   );
 }
 

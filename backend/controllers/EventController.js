@@ -4,39 +4,73 @@ import jwt from 'jsonwebtoken';
 import { jwtDecode } from "jwt-decode";
 import { ObjectId } from "mongodb";
 //Get
-export const getAllEvents = async (req,res)=>{
+export const getAllEvents = async (req, res) => {
     try {
-        console.log("user")
-        console.log(req.user);
-        console.log("getAllEvents")
         const database = client.db(DB_NAME);
-        const collection = database.collection(EVENT_COLL);        
-        const data = await collection.find({}).toArray();
-        
-        console.log("data",data)
+        const eventsCollection = database.collection(EVENT_COLL);
+        const usersCollection = database.collection(USERS_COLL); // Corrected collection name
 
-        // jwt.verify(token, "cdac",(err,decoded)=>{
-        //     if(err){
-        //         console.log("JWT err", err);
-        //     }
-        //     else{
-        //         console.log("JWT decoded", decoded);
-        //     }
-        // });
-        
-        console.log("end",data);
-        res.status(200).send(data);
+        const events = await eventsCollection.aggregate([
+            {
+                $lookup: {
+                    from: USERS_COLL, // Corrected collection name
+                    localField: "eventHost.id",
+                    foreignField: "_id",
+                    as: "eventHost"
+                }
+            },
+            {
+                $lookup: {
+                    from: USERS_COLL, // Corrected collection name
+                    localField: "participants",
+                    foreignField: "_id",
+                    as: "participants"
+                }
+            },
+            {
+                $project: {
+                    eventName: 1,
+                    gameName: 1,
+                    location: 1,
+                    numberOfSeats: 1,
+                    dateOfEvent: 1,
+                    timeOfEvent: 1,
+                    eventHost: { $arrayElemAt: ["$eventHost", 0] },
+                    participants: {
+                        $map: {
+                            input: "$participants",
+                            as: "participant",
+                            in: {
+                                $arrayElemAt: [
+                                    {
+                                        $filter: {
+                                            input: "$participants",
+                                            cond: { $eq: ["$$participant", "$$this"] }
+                                        }
+                                    },
+                                    0
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        ]).toArray();
+        console.log(events);
+        res.status(200).send(events);
     } catch (error) {
-        res.status(400).send(error);
+        res.status(500).send({ message: "Internal server error" });
     }
-}
+};
+
+
 
 
 export const getEventById= async (req,res)=>{
     try {
 
         console.log("getEventById function ");
-        console.log(req.params.id);
+        // console.log(req.params.id);
         const eventId = req.params.id;
         const database = client.db(DB_NAME);
         const collection = database.collection(EVENT_COLL);        
@@ -47,7 +81,7 @@ export const getEventById= async (req,res)=>{
         }
 
         
-        const eventInfo = await collection.find({_id:new ObjectId('6649f3da82aa52f25c094bab')}).toArray();
+        const eventInfo = await collection.find({_id:new ObjectId(eventId)}).toArray();
         console.log("eventInfo",eventInfo);
 
         res.status(200).send({eventInfo});
