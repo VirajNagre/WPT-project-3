@@ -12,13 +12,14 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 import { Container } from "react-bootstrap";
-// <<<<<<< HEAD
 import { MyProfile } from "./components/MyProfile.js";
 import { UpdateInfo } from "./components/UpdateInfo.js";
-// =======
-import { PrivateRoute } from "./components/Routing/PrivateRoute.js";
 import { Footer } from "./components/Footer.js";
-// >>>>>>> 7bd3d0f568ec1024da75611e1717c578588afef3
+import { AdminPanel } from './components/AdminPanel.js'
+
+import { PrivateRoute } from "./components/Routing/PrivateRoute.js";
+import { AdminRoute } from './components/Routing/AdminRoute.js';
+
 function App() {
   return (
     <>
@@ -38,8 +39,10 @@ function App() {
             <Route element={<PrivateRoute />} >
               <Route path="/profile" element={<MyProfile/>} />
               <Route path="/update" element={<UpdateInfo/>} />
-
               <Route path="/event/create-new" element={<NewEventPage />} />
+              <Route element = {<AdminRoute />}>
+                  <Route path="/admin" element={<AdminPanel />} />
+              </Route>
             </Route>
             
 \          </Routes>

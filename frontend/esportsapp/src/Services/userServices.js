@@ -1,4 +1,4 @@
-import { USER_INFO, USER_TOKEN_STORAGE_KEY } from "../Constants/authConstants.js";
+import { IS_ADMIN, USER_INFO, USER_TOKEN_STORAGE_KEY } from "../Constants/authConstants.js";
 
 export function getToken(){
     return localStorage.getItem(USER_TOKEN_STORAGE_KEY);
@@ -15,3 +15,13 @@ export function removeUserInfo(){
 export function getUserInfo(){
     return localStorage.getItem(USER_INFO);
 }
+
+export function getIsAdmin(){
+    return localStorage.getItem(IS_ADMIN);
+}
+
+export function removeIsAdmin(){
+    return localStorage.removeItem(IS_ADMIN);
+}
+
+

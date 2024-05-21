@@ -6,11 +6,12 @@ import { ObjectId } from "mongodb";
 //Get
 export const getAllEvents = async (req, res) => {
     try {
+        console.log("all eent");
         const database = client.db(DB_NAME);
         const eventsCollection = database.collection(EVENT_COLL);
         const usersCollection = database.collection(USERS_COLL); // Corrected collection name
 
-        const events = await eventsCollection.find().toArray();
+        const events = await eventsCollection.find().sort({createdAt:-1}).toArray();
         // console.log(events);
         res.status(200).send(events);
     } catch (error) {
@@ -162,17 +163,22 @@ export const createEvent = async (req,res)=>{
 
 
 export const deleteEvent  = async (req,res)=>{
-    const {id} = req.params;
-    console.log("deelete function ",id);
+    const {delId} = req.body;
+
+    console.log("deelete function ",delId);
     const database = client.db(DB_NAME);
     const collection = database.collection(EVENT_COLL);
-    const oid = new ObjectId(id);
+    const oid = new ObjectId(delId);
     console.log(oid)
     try {
         const resl = await collection.deleteOne({_id:oid});
+        // const resl = await collection.findOne({_id:oid});
         console.log("resl \n",resl);
-        if(resl.deletedCount==1){
+        if(resl?.deletedCount==1){
             res.status(200).send({message:"Event deleted successfully"});
+        }else{
+            res.status(500).send({message:"Error deleting the event"});
+
         }
     } catch (error) {
         console.log(error)

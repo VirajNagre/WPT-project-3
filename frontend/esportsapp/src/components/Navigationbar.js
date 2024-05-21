@@ -1,19 +1,17 @@
 import React, { useContext } from "react";
 import {Link, useNavigate} from 'react-router-dom';
 import { Nav, Navbar, NavItem,NavDropdown, Container,Button } from 'react-bootstrap';
-import { getToken,removeToken, removeUserInfo } from "../Services/userServices";
+import { getToken,removeIsAdmin,removeToken, removeUserInfo } from "../Services/userServices";
 import { AuthContext } from '../components/ContextAPI/authContext.js';
 import { MyProfile } from "./MyProfile.js";
 
 
 const Navigationbar = () => {
-    const { isAuthenticated, logout } = useContext(AuthContext);
+    const { isAuthenticated, logout,isAdmin } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const logoutHandler = (e) =>{
         e.preventDefault();
-        removeToken();
-        removeUserInfo();
         logout();
         navigate('/');  
     }
@@ -55,6 +53,9 @@ const Navigationbar = () => {
                         <Nav.Link as={Link} to="/login">Login</Nav.Link>
                         <Nav.Link as={Link} to="/signup">Signup</Nav.Link>
                         </>
+                    }
+                    {isAdmin &&
+                    <Nav.Link as={Link} to="/admin">Admin </Nav.Link>
                     }
                 </Nav>
             </Navbar.Collapse>

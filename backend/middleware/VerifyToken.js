@@ -6,9 +6,11 @@ import { ObjectId } from 'mongodb';
 
 
 export const verifyToken = async (req,res,next)=>{
+    // console.log(req.headers)
     const header = req.get('Authorization');
-    const database = client.db(DB_NAME);
-    const collection = database.collection(USERS_COLL);
+    // const database = client.db(DB_NAME);
+    // const collection = database.collection(USERS_COLL);
+
     try {
         console.log("header",header);
         if(!header){
@@ -16,14 +18,13 @@ export const verifyToken = async (req,res,next)=>{
         }
         const token = header.split(" ")[1];
         if(!token){
-            console.log("token  ",token);
             res.status(401).send({message:"Token not found"})
         }else{
             jwt.verify(token,"cdac",(err,payload)=>{
                 if(err){
                     res.status(401).send({message:"Invalid token"})
                 }else{
-                    console.log("payload",payload);
+                    console.log("user information ",payload);
                     req.user = payload;
                     next();
                 }
@@ -33,5 +34,6 @@ export const verifyToken = async (req,res,next)=>{
         }
     } catch (error) {      
         console.log(error)  
+        return res.status(401).send({message:"Something went wrong"})
     }
 }

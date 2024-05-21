@@ -12,6 +12,6 @@ eventRouter.post("/registerForEvent",verifyToken,eventRegistration)
 
 eventRouter.get("/:id",getEventById)
 eventRouter.patch("/:id",verifyToken,updateEvent)
-eventRouter.delete("/:id",verifyToken,adminAuth,deleteEvent)
+eventRouter.delete("/delete-event",verifyToken,adminAuth,deleteEvent)
 
 export default eventRouter;

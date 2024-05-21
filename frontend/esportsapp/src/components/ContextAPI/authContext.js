@@ -1,27 +1,29 @@
 // AuthContext.js
 import React, { createContext, useState,useEffect } from 'react';
-import { getToken, getUserInfo } from '../../Services/userServices';
-import { USER_INFO } from '../../Constants/authConstants';
+import { getIsAdmin, getToken, getUserInfo, removeIsAdmin, removeToken, removeUserInfo } from '../../Services/userServices';
+import { IS_ADMIN, USER_INFO } from '../../Constants/authConstants';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const [isAdmin,setIsAdmin] = useState();
   const [userInfo,setUserInfo] = useState();
 
   useEffect(() => {
     
-    const token = getToken();
-    if (token) {
+    if (getToken()) {
       setIsAuthenticated(true);
     }
-    const uData = getUserInfo(); 
-    console.log(uData,"data retrieved from local stroage")
-    if(uData){
-      setUserInfo(uData);
-  }
+
+    if(getUserInfo()){
+      setUserInfo(getUserInfo());
+    }
+
+    if(getIsAdmin()){
+      setIsAdmin(true);
+    }
     
   }, []);
 
@@ -29,11 +31,18 @@ export const AuthProvider = ({ children }) => {
     // console.log("from context",loginInfo)
     localStorage.setItem(USER_INFO,JSON.stringify(loginInfo));
     setUserInfo(JSON.stringify(loginInfo))
+    
+    localStorage.setItem(IS_ADMIN,loginInfo.isAdmin);
+    setIsAdmin(loginInfo.isAdmin)
     setIsAuthenticated(true);
   };
 
   const logout = () => {
     // Perform logout logic
+    removeToken();
+    removeUserInfo();
+    removeIsAdmin();
+    setIsAdmin(false);
     setIsAuthenticated(false);
   };
 
@@ -55,7 +64,7 @@ export const AuthProvider = ({ children }) => {
 
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout ,userInfo,registerEvent}}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout ,userInfo,registerEvent,isAdmin}}>
       {children}
     </AuthContext.Provider>
   );
