@@ -21,7 +21,7 @@ function AllEventsComponent() {
 
   
   return (
-    <Container>
+    <Container className='mt-4'>
       <Row>
         {allEvents.length > 0 ? (
           allEvents.map(event => (

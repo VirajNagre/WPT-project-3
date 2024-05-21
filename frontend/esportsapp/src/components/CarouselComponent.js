@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-// import ExampleCarouselImage from 'components/ExampleCarouselImage';
+
 
 function CarouselComponent() {
   const [index, setIndex] = useState(0);
@@ -10,34 +10,35 @@ function CarouselComponent() {
   };
 
   return (
-    <Carousel activeIndex={index} onSelect={handleSelect} >
-      <Carousel.Item>
-        {/* <ExampleCarouselImage text="First slide" /> */}
-        <div className='h-100 d-flex justify-content-center align-items-center'>
-        <img src='https://placehold.co/600x400/EEE/31343C?font=raleway&text=Raleway' className='lg'></img>
+    <Carousel activeIndex={index} onSelect={handleSelect}>
+
+      <Carousel.Item style={{ height: '75vh' }}>
+        <div className="d-flex justify-content-center align-items-center h-100">
+          <img
+            src='https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            className='img-fluid w-100 h-auto' 
+            style={{ objectFit: 'cover' }} 
+            alt='First slide'
+          />
         </div>
-        
         <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <h1 className='text-white'>PlayConnect</h1>
+          <p>For young by young</p>
         </Carousel.Caption>
       </Carousel.Item>
-      <Carousel.Item>
-        {/* <ExampleCarouselImage text="Second slide" /> */}
-        <img src='https://placehold.co/600x400/EEE/31343C?font=raleway&text=Raleway' className='lg'></img>
+      
+      <Carousel.Item style={{ height: '75vh' }}>
+        <div className="d-flex justify-content-center align-items-center h-100">
+          <img
+            src='https://images.squarespace-cdn.com/content/v1/58cab9aa17bffc68fcce98e9/1489693113118-0KF18LKWD0XWJ2VR2CX1/Luau_Main_Court_15.jpg'
+            className='img-fluid w-100 h-auto' 
+            style={{ objectFit: 'cover' }} 
+            alt='First slide'
+          />
+        </div>
         <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-      <Carousel.Item>
-      <img src='https://placehold.co/600x400/EEE/31343C?font=raleway&text=Raleway' className='lg'></img>
-        {/* <ExampleCarouselImage text="Third slide" /> */}
-        <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
+          {/* <h3>First slide label</h3> */}
+          {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
@@ -45,3 +46,6 @@ function CarouselComponent() {
 }
 
 export default CarouselComponent;
+
+
+

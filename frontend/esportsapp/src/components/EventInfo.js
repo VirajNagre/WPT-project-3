@@ -4,7 +4,7 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { BASE_URL, EVENT_ENDPOINT } from "../Constants/Constants.js";
 import { AuthContext } from "./ContextAPI/authContext.js";
-import { getToken } from "../Services/userServices.js";
+import { getToken, getUserInfo } from "../Services/userServices.js";
 
 const EventInfo = () => {
   const { isAuthenticated, registerEvent, userInfo } = useContext(AuthContext);
@@ -28,6 +28,7 @@ const EventInfo = () => {
       setSeatCount(response.data.eventInfo[0].numberOfSeats);
     } catch (err) {
       // setError(err.message);
+      console.log(err);
     }
   };
 
@@ -35,17 +36,17 @@ const EventInfo = () => {
     getData();
     console.log("userInfo from eventinfo\n",userInfo);
     let unfo;
-    if (userInfo) {
-      unfo = JSON.parse(userInfo);
-      console.log("kay re babaaaa----------", userInfo, typeof userInfo);
-      setIsRegistered(unfo.registeredEvents.includes(id));
+    if (isAuthenticated) {
+      unfo = JSON.parse(getUserInfo());
+      console.log("kay re babaaaa----------", unfo, typeof unfo);
+      setIsRegistered(unfo?.registeredEvents.includes(id));
     }
   }, []);
 
   // const seatCount = event.numberOfSeats;
 
   const handleClick = () => {
-    alert("oaojsjdnsj");
+    // alert("oaojsjdnsj");
     if (isAuthenticated && event.numberOfSeats > 0) {
       // Handle registration logic here
       axios

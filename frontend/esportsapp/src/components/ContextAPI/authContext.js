@@ -12,20 +12,26 @@ export const AuthProvider = ({ children }) => {
   const [userInfo,setUserInfo] = useState();
 
   useEffect(() => {
-    
-    if (getToken()) {
-      setIsAuthenticated(true);
-    }
+    const fetchData = async () => {
+        if (getToken()) {
+            setIsAuthenticated(true);
+            const admin = getIsAdmin(); // Assuming getIsAdmin() is an asynchronous function
+            console.log("admin value- ", admin);
+            if (admin===true) {
+                console.log("setting isAdmin true", admin);
+                setIsAdmin(true);
+            }
+        }
 
-    if(getUserInfo()){
-      setUserInfo(getUserInfo());
-    }
+        if (getUserInfo()) {
+            setUserInfo(getUserInfo());
+        }
+        console.log("from authe con useffect");
+    };
 
-    if(getIsAdmin()){
-      setIsAdmin(true);
-    }
-    
-  }, []);
+    fetchData();
+}, []);
+
 
   const login = (loginInfo) => {
     // console.log("from context",loginInfo)
@@ -33,6 +39,7 @@ export const AuthProvider = ({ children }) => {
     setUserInfo(JSON.stringify(loginInfo))
     
     localStorage.setItem(IS_ADMIN,loginInfo.isAdmin);
+    console.log("typeof loginInfo.isAdmin ",typeof loginInfo.isAdmin);
     setIsAdmin(loginInfo.isAdmin)
     setIsAuthenticated(true);
   };
@@ -56,8 +63,8 @@ export const AuthProvider = ({ children }) => {
       registeredEvents: [...JSONuserInfo.registeredEvents, eventId],
     };
     console.log("updatedUserInfo",updatedUserInfo)
-    setUserInfo(updatedUserInfo);
     localStorage.setItem(USER_INFO, JSON.stringify(updatedUserInfo));
+    setUserInfo(updatedUserInfo);
   };
 
 

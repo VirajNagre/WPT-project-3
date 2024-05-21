@@ -1,3 +1,32 @@
+:root {
+  --blue: #007bff;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --pink: #e83e8c;
+  --red: #dc3545;
+  --orange: #fd7e14;
+  --yellow: #ffc107;
+  --green: #28a745;
+  --teal: #20c997;
+  --cyan: #17a2b8;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #343a40;
+  --primary: #eca013;
+  --secondary: #6c757d;
+  --success: #28a745;
+  --info: #17a2b8;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --light: #f8f9fa;
+  --dark: #343a40;
+  --white: #fafaf1;
+  --primary-color: #F4AB4F; 
+  --secondary-color: #231239; 
+  --secondary-darker-color: #0d0815; 
+}
+
+
 body {
   margin: 0;
   font-family: "Play", sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,7 +34,64 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(5, 30, 49);
+  background-color: var(--secondary-color);
+  color: var(--white);
 }
+
+.card {
+  
+  color: var(--secondary-darker-color);
+}
+
+.main-section{
+  min-height: 100dvh;
+}
+
+
+.table{
+  color: var(--white);
+}
+
+.main-footer{
+  background-color: var(--secondary-darker-color)  !important;
+}
+
+.table th{
+  color: var(--primary-color);
+}
+
+.table-hover > tbody > tr:hover {
+  background-color: #ffa500; /* Change to your desired hover background color */
+  color: #fff; /* Change to your desired hover text color */
+}
+
+h1,h2,h3{
+  color: var(--primary-color);
+}
+
+
+.nav{
+  color: rgb(59, 180, 28);
+}
+
+a{
+  color: var(--primary-color);
+  /* background-color: var(--primary-color); */
+  /* font-weight: bold; */
+}
+
+.btn-primary{
+  color: var(--white);
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+.btn-primary{
+  color: var(--white);
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

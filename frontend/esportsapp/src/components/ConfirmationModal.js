@@ -3,9 +3,13 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 const ConfirmationModal = ({ show, handleClose, handleConfirm, content })  => {
+    console.log("ConfirmationModal start");
+    console.log(content);
+
+    console.log("ConfirmationModal end");
     return (
-        <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
+        <Modal show={show} onHide={handleClose} className='text-secondary'>
+            <Modal.Header >
                 <Modal.Title>{content.heading}</Modal.Title>
             </Modal.Header>
             <Modal.Body>{content.body}</Modal.Body>

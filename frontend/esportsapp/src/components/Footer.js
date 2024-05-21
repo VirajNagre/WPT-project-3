@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export const Footer = () => {
     return (
@@ -6,7 +7,9 @@ export const Footer = () => {
             <div className="container">
                 <div className="row">
                     <div className="col-md-3 col-sm-6">
-                        <h5>Contact Us</h5>
+                        <h5>
+                            <Link to="/contact" className="text-white">Contact Us</Link>
+                        </h5>
                         <ul className="list-unstyled">
                             <li>+91 8291343998 / +91 9594514427</li>
                             <li>abc123@gmail.com</li>
@@ -28,11 +31,10 @@ export const Footer = () => {
                 </div>
                 <div className="footer-bottom">
                     <p className="text-center">
-                        &copy;{new Date().getFullYear()} Esports App - All Rights Reserved
+                        &copy;{new Date().getFullYear()} PlayConnect - All Rights Reserved
                     </p>
                 </div>
             </div>
         </footer>
     );
 }
-

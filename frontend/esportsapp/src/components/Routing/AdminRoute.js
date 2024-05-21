@@ -2,7 +2,9 @@ import { Navigate, Outlet} from "react-router-dom";
 import { getIsAdmin, getToken } from "../../Services/userServices";
 
 export function AdminRoute(props) {
-    if (getIsAdmin()) {
+    console.log("getIsAdmin()",getIsAdmin(),typeof getIsAdmin());;
+    let admin = getIsAdmin()
+    if (admin==='true') {
         return <Outlet/>;
     }
     else {

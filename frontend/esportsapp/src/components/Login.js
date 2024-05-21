@@ -45,6 +45,11 @@ export const Login = () => {
   };
   return (
     <Container>
+<div className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
+
+      {/* <div  className="d-flex align-items-center justify-content-center"> */}
+
+
       <Toaster position="top-right" />
       <Form className="w-50 mt-4" onSubmit={handleSubmit}>
         <Row>
@@ -75,6 +80,8 @@ export const Login = () => {
           </Button>
         </Row>
       </Form>
+
+      </div>
     </Container>
   );
 };

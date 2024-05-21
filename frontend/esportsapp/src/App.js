@@ -13,9 +13,12 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import { Container } from "react-bootstrap";
 import { MyProfile } from "./components/MyProfile.js";
+import {ContactPage} from './components/ContactPage.js';
 import { UpdateInfo } from "./components/UpdateInfo.js";
 import { Footer } from "./components/Footer.js";
+
 import { AdminPanel } from './components/AdminPanel.js'
+
 
 import { PrivateRoute } from "./components/Routing/PrivateRoute.js";
 import { AdminRoute } from './components/Routing/AdminRoute.js';
@@ -27,15 +30,16 @@ function App() {
 
       <Router>
           <Navigationbar />
+          <section className="main-section">
           <Routes className="w-100">
-
-
+            <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/event/:id" element={<EventInfo />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="*" element={<Home />} />
+
             <Route element={<PrivateRoute />} >
               <Route path="/profile" element={<MyProfile/>} />
               <Route path="/update" element={<UpdateInfo/>} />
@@ -44,13 +48,12 @@ function App() {
                   <Route path="/admin" element={<AdminPanel />} />
               </Route>
             </Route>
-            
 \          </Routes>
-         
+          </section>
+          <Footer />
         </Router>
         
       </AuthProvider>
-      <Footer/>
     </>
 
   );

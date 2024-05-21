@@ -13,26 +13,7 @@ const EventCard = ({ event }) => {
 
   const [seatCount, setSeatCount] = useState(event.numberOfSeats);
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    // navigate(`/event/${event._id}`)
-    axios
-      .post(
-        `${BASE_URL}/${EVENT_ENDPOINT}/registerForEvent`,
-        { eventId: event._id },
-        { headers: { Authorization: `Bearer ${getToken()}` } }
-      )
-      .then((response) => {
-        console.log(response);
-        if (response.status == 200) {
-          // event.numberOfSeats=event.numberOfSeats-1;
-          setSeatCount(seatCount - 1);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+
   return (
     <Card
       className="h-100"
