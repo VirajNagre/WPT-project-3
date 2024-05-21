@@ -27,7 +27,7 @@ function App() {
 
       <Router>
           <Navigationbar />
-          <Routes>
+          <Routes className="w-100">
 
 
             <Route path="/about" element={<About />} />
